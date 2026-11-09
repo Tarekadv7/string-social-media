@@ -1,0 +1,578 @@
+<title>نقلة · سوق النقليات</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
+<style>
+/* Layout: phone-frame prototype on desktop, full-bleed app on phones. Asphalt navy + road-sign amber. */
+:root{
+  --bg:#e9ecef; --app:#f6f7f8; --surface:#ffffff; --ink:#14202b; --muted:#5d6b78; --line:#dde2e7;
+  --brand:#16324a; --brand-ink:#ffffff; --amber:#f2a516; --amber-ink:#2a1c00; --amber-soft:#fdf1d8;
+  --good:#1f8a5b; --good-soft:#e2f4ea; --warn:#b5660b; --warn-soft:#fbeedd; --cold:#1d6fa5; --cold-soft:#e1eff8;
+  --shadow:0 1px 2px rgba(20,32,43,.06),0 6px 18px rgba(20,32,43,.06);
+  --f-display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b1117; --app:#111a22; --surface:#18232d; --ink:#e7edf2; --muted:#93a3b1; --line:#26333f;
+  --brand:#2a5578; --brand-ink:#ffffff; --amber:#f5b335; --amber-ink:#241800; --amber-soft:#3a2c10;
+  --good:#45c38a; --good-soft:#163527; --warn:#f0a24a; --warn-soft:#3a2810; --cold:#5db1e8; --cold-soft:#13304a;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b1117; --app:#111a22; --surface:#18232d; --ink:#e7edf2; --muted:#93a3b1; --line:#26333f;
+  --brand:#2a5578; --brand-ink:#ffffff; --amber:#f5b335; --amber-ink:#241800; --amber-soft:#3a2c10;
+  --good:#45c38a; --good-soft:#163527; --warn:#f0a24a; --warn-soft:#3a2810; --cold:#5db1e8; --cold-soft:#13304a;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+.stage{display:flex;gap:40px;justify-content:center;align-items:flex-start;padding-block:28px;direction:rtl}
+.notes{max-width:300px;padding-top:40px}
+.notes h1{font-family:var(--f-display);font-size:30px;margin:0 0 4px;color:var(--ink)}
+.notes p{color:var(--muted);margin:0 0 14px}
+.notes ol{padding-inline-start:18px;margin:0;color:var(--muted);display:grid;gap:6px}
+.notes b{color:var(--ink)}
+
+.phone{width:390px;height:812px;border-radius:44px;background:var(--app);border:10px solid #0d141b;box-shadow:0 30px 60px rgba(0,0,0,.25);
+  overflow:hidden;position:relative;display:flex;flex-direction:column;direction:rtl}
+@media (max-width:760px){
+  body{padding-left:0;padding-right:0}
+  .stage{padding-block:0;display:block}
+  .notes{display:none}
+  .phone{width:100%;height:100vh;height:100dvh;border:0;border-radius:0;box-shadow:none}
+}
+
+/* top bar */
+.top{background:var(--brand);color:var(--brand-ink);padding:18px 18px 16px;display:flex;align-items:center;gap:10px;flex:none}
+.top .logo{font-family:var(--f-display);font-size:24px;font-weight:700;letter-spacing:0}
+.top .logo span{color:var(--amber)}
+.top .sp{flex:1}
+.top .back{background:rgba(255,255,255,.12);border:0;border-radius:10px;width:36px;height:36px;display:grid;place-items:center;color:inherit}
+.top h2{font-size:17px;margin:0;font-weight:600}
+.mode{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.mode button{border:0;background:none;color:var(--brand-ink);padding:5px 11px;border-radius:999px;font-size:12.5px;opacity:.8}
+.mode button.on{background:var(--amber);color:var(--amber-ink);opacity:1;font-weight:600}
+
+.scroll{flex:1;overflow-y:auto;padding:16px 16px 24px;display:flex;flex-direction:column;gap:16px}
+.nav{flex:none;display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(8px + env(safe-area-inset-bottom,0px))}
+.nav button{border:0;background:none;display:grid;justify-items:center;gap:2px;font-size:11.5px;color:var(--muted);padding:6px 0}
+.nav button.on{color:var(--brand);font-weight:600}
+:root[data-theme="dark"] .nav button.on{color:var(--amber)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .nav button.on{color:var(--amber)}}
+.nav svg{width:22px;height:22px}
+
+/* generic */
+.card{background:var(--surface);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.label{font-size:12.5px;color:var(--muted);font-weight:500}
+.h{font-family:var(--f-display);font-size:19px;font-weight:600;margin:0}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.btn{border:0;border-radius:14px;padding:14px 16px;font-weight:600;font-size:16px;width:100%;background:var(--amber);color:var(--amber-ink)}
+.btn.dark{background:var(--brand);color:var(--brand-ink)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--app);color:var(--muted)}
+.chip.good{background:var(--good-soft);color:var(--good)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.cold{background:var(--cold-soft);color:var(--cold)}
+.chip.amber{background:var(--amber-soft);color:var(--warn)}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+
+/* home */
+.hero{background:var(--brand);color:var(--brand-ink);margin:-16px -16px 0;padding:4px 16px 56px}
+.hero p{margin:0;opacity:.85}
+.hero .big{font-family:var(--f-display);font-size:26px;line-height:1.3;margin:2px 0 6px;font-weight:600}
+.route{margin-top:-60px;position:relative}
+.route .stop{display:flex;align-items:center;gap:12px;padding:8px 0}
+.route .dot{width:12px;height:12px;border-radius:50%;border:3px solid var(--brand);flex:none}
+.route .dot.to{background:var(--amber);border-color:var(--amber)}
+.route select{border:0;background:none;font-weight:600;font-size:16px;padding:2px 0;flex:1;min-width:0}
+.route .sep{height:1px;background:var(--line);margin-inline-start:24px}
+.route .swap{position:absolute;left:16px;top:38px;border:1px solid var(--line);background:var(--surface);border-radius:50%;width:34px;height:34px;display:grid;place-items:center}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.type{border:1.5px solid transparent;background:var(--surface);border-radius:14px;padding:12px 6px 10px;display:grid;justify-items:center;gap:4px;box-shadow:var(--shadow);text-align:center}
+.type svg{width:64px;height:34px}
+.type b{font-size:13px;font-weight:600;line-height:1.3}
+.type small{font-size:11px;color:var(--muted);line-height:1.3}
+.type.on{border-color:var(--amber);background:var(--amber-soft)}
+.promo{display:flex;gap:12px;align-items:center;background:var(--amber-soft);border-radius:16px;padding:14px}
+.promo .ic{width:42px;height:42px;border-radius:12px;background:var(--amber);display:grid;place-items:center;color:var(--amber-ink);flex:none;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.stats b{font-family:var(--f-display);font-size:20px;display:block}
+
+/* request form */
+.field{display:grid;gap:6px}
+.field input,.field select{background:var(--app);border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;width:100%}
+.stepper{display:flex;align-items:center;gap:0;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;width:max-content}
+.stepper button{border:0;background:var(--app);width:44px;height:44px;font-size:20px}
+.stepper span{min-width:56px;text-align:center;font-weight:700;font-size:18px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px;text-align:start;display:grid;gap:2px}
+.seg button b{font-size:14px}
+.seg button small{font-size:11.5px;color:var(--muted)}
+.seg button.on{border-color:var(--amber);background:var(--amber-soft)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills button{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px}
+.pills button.on{border-color:var(--brand);background:var(--brand);color:var(--brand-ink)}
+
+/* offers */
+.summary{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.summary b{color:var(--ink)}
+.days{display:flex;gap:8px;overflow-x:auto;padding:12px 2px 8px;margin:0 -16px;padding-inline:16px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:none;width:76px;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 4px 10px;display:grid;justify-items:center;gap:2px;position:relative}
+.day .dn{font-size:11.5px;color:var(--muted)}
+.day .dd{font-weight:700;font-size:15px}
+.day .bar{width:10px;border-radius:4px;background:var(--line);margin:4px 0 2px}
+.day .pp{font-size:12px;font-weight:700}
+.day.on{border-color:var(--brand);background:var(--brand);color:var(--brand-ink)}
+.day.on .dn{color:var(--brand-ink);opacity:.8}
+.day.on .bar{background:var(--amber)}
+.day.best .bar{background:var(--good)}
+.day .tag{position:absolute;top:-9px;font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px;background:var(--good);color:#fff}
+.day .tag.u{background:var(--warn)}
+.day.na{opacity:.45}
+.tip svg{width:22px;height:22px;flex:none;color:var(--good)}
+.tip{display:flex;gap:10px;align-items:flex-start;background:var(--good-soft);color:var(--ink);border-radius:14px;padding:12px;font-size:13.5px}
+.tip b{color:var(--good)}
+.combo{border:2px solid var(--amber)}
+.combo .total{font-family:var(--f-display);font-size:28px;font-weight:700}
+.mix{display:grid;gap:6px;margin:10px 0 12px}
+.mix div{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.offer{display:grid;gap:10px}
+.offer .co{display:flex;gap:10px;align-items:center}
+.av{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-weight:700;font-family:var(--f-display);color:#fff;flex:none}
+.offer .price{text-align:left}
+.offer .price b{font-size:19px;font-family:var(--f-display)}
+.offer .meta{display:flex;flex-wrap:wrap;gap:6px}
+.sortbar{display:flex;gap:8px;align-items:center}
+.sortbar button{border:0;background:none;font-size:13px;color:var(--muted);padding:4px 2px;border-bottom:2px solid transparent}
+.sortbar button.on{color:var(--ink);border-color:var(--amber);font-weight:600}
+
+/* checkout */
+.lines{display:grid;gap:8px}
+.lines div{display:flex;justify-content:space-between;font-size:14px}
+.lines .tot{border-top:1px dashed var(--line);padding-top:10px;font-weight:700;font-size:17px}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:6px;text-align:center;font-size:12px}
+.flow .n{background:var(--app);border-radius:12px;padding:10px 4px;font-weight:600}
+.flow .n.me{background:var(--amber-soft)}
+.pay{display:grid;gap:8px}
+.pay label{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:12px;padding:12px;cursor:pointer}
+.pay input{accent-color:var(--amber)}
+.pay label:has(input:checked){border-color:var(--amber);background:var(--amber-soft)}
+
+/* bookings / tracking */
+.timeline{display:grid;gap:0;margin-top:8px}
+.tl{display:grid;grid-template-columns:22px 1fr;gap:10px;position:relative;padding-bottom:14px}
+.tl:not(:last-child)::before{content:"";position:absolute;right:10px;top:18px;bottom:0;width:2px;background:var(--line)}
+.tl.done:not(:last-child)::before{background:var(--good)}
+.tl i{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:var(--surface);display:block}
+.tl.done i{background:var(--good);border-color:var(--good)}
+.tl.now i{border-color:var(--amber);box-shadow:0 0 0 4px var(--amber-soft)}
+.tl b{display:block;font-size:14px}
+.tl small{color:var(--muted)}
+.map{height:150px;border-radius:14px;background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/22px 22px,var(--app);position:relative;overflow:hidden}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.trucks{display:grid;gap:8px}
+.trk{display:flex;align-items:center;gap:10px;font-size:13px}
+.prog{flex:1;height:6px;background:var(--app);border-radius:4px;overflow:hidden}
+.prog span{display:block;height:100%;background:var(--amber)}
+
+/* partner */
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpis .card b{font-family:var(--f-display);font-size:22px;display:block}
+.req{display:grid;gap:8px}
+.req .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.req .acts .btn{padding:10px;font-size:14px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.cal div{border-radius:10px;padding:6px 0;font-size:12px;background:var(--app)}
+.cal div b{display:block;font-size:14px}
+.cal .full{background:var(--warn-soft);color:var(--warn)}
+.cal .open{background:var(--good-soft);color:var(--good)}
+.toast{position:absolute;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--app);padding:10px 16px;border-radius:12px;font-size:13.5px;white-space:nowrap;z-index:5}
+.empty{text-align:center;padding:30px 10px;color:var(--muted)}
+.success{display:grid;justify-items:center;text-align:center;gap:8px;padding-top:30px}
+.success .ok{width:76px;height:76px;border-radius:50%;background:var(--good-soft);color:var(--good);display:grid;place-items:center}
+@media (prefers-reduced-motion:no-preference){.scroll>*{animation:in .25s ease both}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
+</style>
+
+<div class="stage">
+  <aside class="notes">
+    <h1>نقلة</h1>
+    <p>نموذج واجهات أولي: منصة واحدة تجمع شركات النقليات في السعودية. العميل يطلب، يقارن السعر حسب اليوم، ويدفع للمنصة.</p>
+    <ol>
+      <li><b>الرئيسية:</b> اختر المسار ونوع الشاحنة.</li>
+      <li><b>الطلب:</b> العدد، الحمولة، ومرونة الموعد.</li>
+      <li><b>العروض:</b> سعر كل يوم. لو مش مستعجل، السعر ينزل.</li>
+      <li><b>الدفع:</b> العميل يدفع لنقلة، ونقلة تدفع للشركة بعد التسليم.</li>
+      <li><b>التتبع:</b> حالة كل شاحنة.</li>
+      <li><b>وضع الشركة:</b> بدّل من الأعلى لترى لوحة شركة النقل.</li>
+    </ol>
+    <p class="small" style="margin-top:14px">كل الأسعار والشركات أمثلة توضيحية.</p>
+  </aside>
+  <div class="phone" id="phone"></div>
+</div>
+
+<script>
+(function(){
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const dayFmt = new Intl.DateTimeFormat('ar-u-nu-latn-ca-gregory',{weekday:'short'});
+const dateFmt = new Intl.DateTimeFormat('ar-u-nu-latn-ca-gregory',{day:'numeric',month:'short'});
+const today = new Date(); today.setHours(0,0,0,0);
+const dayAt = i => { const d = new Date(today); d.setDate(d.getDate()+i); return d; };
+
+const CITIES = {
+  'الدمام':[26.43,50.10],'الخبر':[26.28,50.21],'الجبيل':[27.00,49.66],'الأحساء':[25.38,49.59],
+  'الرياض':[24.71,46.68],'القصيم':[26.33,43.97],'جدة':[21.49,39.19],'مكة':[21.39,39.86],
+  'المدينة':[24.47,39.61],'ينبع':[24.09,38.06],'تبوك':[28.38,36.57],'أبها':[18.22,42.50]
+};
+function km(a,b){
+  const [la1,lo1]=CITIES[a],[la2,lo2]=CITIES[b],R=6371,r=x=>x*Math.PI/180;
+  const h=Math.sin(r(la2-la1)/2)**2+Math.cos(r(la1))*Math.cos(r(la2))*Math.sin(r(lo2-lo1)/2)**2;
+  return Math.max(40,Math.round(2*R*Math.asin(Math.sqrt(h))*1.12));
+}
+
+const TYPES = [
+  {id:'trailer',name:'تريلا جوانب',sub:'بضائع عامة · 25 طن',mult:1},
+  {id:'flat',name:'تريلا فلات',sub:'حاويات 20 / 40 قدم',mult:1.04},
+  {id:'reefer',name:'تريلا مبردة',sub:'خضار · مجمدات',mult:1.32},
+  {id:'water',name:'صهريج مياه',sub:'19 – 32 ألف لتر',mult:.62},
+  {id:'satha',name:'سطحة',sub:'نقل سيارات ومعدات',mult:.55},
+  {id:'lowbed',name:'لوبد',sub:'معدات ثقيلة',mult:1.45}
+];
+const T = id => TYPES.find(t=>t.id===id);
+
+const COMPANIES = [
+  {name:'شركة الخليج للنقليات',short:'خ',color:'#16324a',rating:4.8,trips:2140,fleet:120,f:1.04},
+  {name:'نقليات الساحل الشرقي',short:'س',color:'#8a4b12',rating:4.6,trips:980,fleet:45,f:.97},
+  {name:'أسطول الأحساء',short:'أ',color:'#2c6b4f',rating:4.4,trips:610,fleet:30,f:.93},
+  {name:'الواحة للنقل المبرد',short:'و',color:'#1d6fa5',rating:4.7,trips:1320,fleet:60,f:1.06,cold:true},
+  {name:'مؤسسة الطريق السريع',short:'ط',color:'#6a3d7a',rating:4.2,trips:350,fleet:18,f:.9}
+];
+// price drops as the date moves away from today (urgent premium)
+const DAY_F = [1,.93,.86,.78,.70,.70,.73,.68,.71,.75,.72,.69,.74,.77];
+function rnd(seed){ let x=Math.sin(seed*9301+49297)*233280; return x-Math.floor(x); }
+function hash(s){ let h=0; for(const c of s) h=(h*31+c.charCodeAt(0))|0; return Math.abs(h); }
+
+function basePrice(r){
+  const d=km(r.from,r.to);
+  return Math.max(1400, d*7.46) * T(r.type).mult;   // ~10,000 SAR urgent trailer Dammam→Jeddah
+}
+function offersFor(r, day){
+  const b=basePrice(r), seed=hash(r.from+r.to+r.type);
+  return COMPANIES.map((c,i)=>{
+    if(r.type==='reefer' && !c.cold && i>2) return null;
+    const s=rnd(seed+i*17+day*31);
+    const avail = s<.18 ? 0 : Math.max(1,Math.round(s*(c.fleet/10)));
+    if(!avail) return null;
+    const noise = .96 + rnd(seed+i*7+day*13)*.08;
+    const price = Math.round(b*DAY_F[day]*c.f*noise/50)*50;
+    const hours = Math.round(km(r.from,r.to)/70)+2;
+    return {ci:i,c,avail,price,day,hours,ins:c.rating>=4.6};
+  }).filter(Boolean);
+}
+function bestCombo(r, day){
+  const offs=offersFor(r,day).sort((a,b)=>a.price-b.price); let need=r.count; const parts=[];
+  for(const o of offs){ if(!need) break; const take=Math.min(need,o.avail); parts.push({o,take}); need-=take; }
+  const total=parts.reduce((s,p)=>s+p.take*p.o.price,0);
+  return {parts,total,filled:r.count-need,complete:need===0};
+}
+
+const state = {
+  mode:'customer', screen:'home', tab:'home',
+  req:{from:'الدمام',to:'جدة',type:'trailer',count:5,cargo:'مواد بناء',weight:'25',urgency:'flex',pickup:'ميناء الملك عبدالعزيز',notes:''},
+  day:0, sort:'price', choice:null, pay:'mada', toast:'',
+  bookings:[
+    {id:'NQ-24817',from:'الدمام',to:'الرياض',type:'flat',count:3,total:15600,date:dayAt(-1),status:2,mix:[['شركة الخليج للنقليات',2],['أسطول الأحساء',1]],prog:[64,58,71]},
+    {id:'NQ-24790',from:'الجبيل',to:'القصيم',type:'reefer',count:1,total:6150,date:dayAt(-6),status:4,mix:[['الواحة للنقل المبرد',1]],prog:[100]}
+  ],
+  partner:{requests:[
+    {id:'R-552',from:'الدمام',to:'جدة',type:'trailer',count:5,day:4,target:7000},
+    {id:'R-549',from:'الخبر',to:'الرياض',type:'flat',count:2,day:1,target:3600},
+    {id:'R-541',from:'الأحساء',to:'المدينة',type:'satha',count:1,day:2,target:4200}
+  ], sent:{}}
+};
+
+/* ---------- icons ---------- */
+function truck(type){
+  const cab='<rect x="50" y="10" width="12" height="16" rx="3" fill="var(--brand)"/><rect x="53" y="13" width="7" height="6" rx="1" fill="var(--amber-soft)"/>';
+  const wheels=(xs)=>xs.map(x=>`<circle cx="${x}" cy="28" r="3.6" fill="var(--ink)"/>`).join('');
+  let body='';
+  if(type==='trailer') body='<rect x="2" y="6" width="46" height="18" rx="2" fill="var(--amber)"/>'+[10,18,26,34,42].map(x=>`<line x1="${x}" y1="8" x2="${x}" y2="22" stroke="var(--amber-ink)" stroke-opacity=".25"/>`).join('');
+  if(type==='flat') body='<rect x="2" y="22" width="46" height="3" fill="var(--muted)"/><rect x="4" y="8" width="42" height="14" rx="1" fill="var(--cold)"/>'+[10,16,22,28,34,40].map(x=>`<line x1="${x}" y1="9" x2="${x}" y2="21" stroke="#fff" stroke-opacity=".35"/>`).join('');
+  if(type==='reefer') body='<rect x="2" y="6" width="46" height="18" rx="2" fill="#e8f2f9" stroke="var(--cold)" stroke-width="1.5"/><rect x="42" y="8" width="5" height="8" fill="var(--cold)"/><path d="M20 10v10M15 15h10M16.5 11.5l7 7M23.5 11.5l-7 7" stroke="var(--cold)" stroke-width="1.4"/>';
+  if(type==='water') body='<rect x="2" y="8" width="46" height="16" rx="8" fill="#5fa8d3"/><rect x="2" y="13" width="46" height="2" fill="#fff" fill-opacity=".4"/>';
+  if(type==='satha') body='<rect x="2" y="22" width="46" height="3" fill="var(--muted)"/><path d="M10 22l4-7h16l5 7z" fill="var(--amber)"/><rect x="16" y="16" width="5" height="4" fill="var(--amber-soft)"/><rect x="23" y="16" width="5" height="4" fill="var(--amber-soft)"/>';
+  if(type==='lowbed') body='<path d="M2 20h46v5H2z" fill="var(--muted)"/><rect x="12" y="10" width="20" height="10" rx="2" fill="var(--amber)"/><path d="M30 12l10-6" stroke="var(--amber)" stroke-width="3"/>';
+  return `<svg viewBox="0 0 64 34" aria-hidden="true">${body}${cab}${wheels(type==='satha'?[12,40,57]:[8,16,40,57])}</svg>`;
+}
+const ic = {
+  back:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>',
+  swap:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg>',
+  list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+  tag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>',
+  truck:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 6h12v10H2zM14 9h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  check:'<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5 9-10"/></svg>',
+  shield:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>'
+};
+
+/* ---------- rendering ---------- */
+const $phone = document.getElementById('phone');
+const cityOpts = sel => Object.keys(CITIES).map(c=>`<option ${c===sel?'selected':''}>${c}</option>`).join('');
+const sar = n => `<span class="num">${fmt(n)}</span> <span class="small">ر.س</span>`;
+
+function topbar(title, back){
+  const modeSw = `<div class="mode" role="group" aria-label="نوع الحساب">
+    <button data-act="mode" data-v="customer" class="${state.mode==='customer'?'on':''}">عميل</button>
+    <button data-act="mode" data-v="partner" class="${state.mode==='partner'?'on':''}">شركة نقل</button></div>`;
+  if(!title) return `<div class="top"><div class="logo">نقل<span>ة</span></div><div class="sp"></div>${modeSw}</div>`;
+  return `<div class="top">${back?`<button class="back" data-act="go" data-v="${back}" aria-label="رجوع">${ic.back}</button>`:''}<h2>${title}</h2><div class="sp"></div>${modeSw}</div>`;
+}
+function nav(){
+  const items = state.mode==='customer'
+    ? [['home','الرئيسية',ic.home],['offers','العروض',ic.tag],['bookings','طلباتي',ic.list],['account','حسابي',ic.user]]
+    : [['p-home','الطلبات',ic.list],['p-fleet','أسطولي',ic.truck],['p-cal','التوفر',ic.cal],['account','حسابي',ic.user]];
+  return `<nav class="nav">${items.map(([k,l,i])=>`<button data-act="tab" data-v="${k}" class="${state.tab===k?'on':''}">${i}<span>${l}</span></button>`).join('')}</nav>`;
+}
+
+const screens = {
+home(){
+  const r=state.req;
+  return topbar() + `<div class="scroll">
+    <div class="hero"><p>أهلاً أبو العبد</p><div class="big">وين بدك تنقل اليوم؟</div></div>
+    <div class="card route">
+      <div class="stop"><span class="dot"></span><div style="flex:1;min-width:0"><div class="label">من</div><select id="from" data-act="set" data-k="from" aria-label="من">${cityOpts(r.from)}</select></div></div>
+      <div class="sep"></div>
+      <div class="stop"><span class="dot to"></span><div style="flex:1;min-width:0"><div class="label">إلى</div><select id="to" data-act="set" data-k="to" aria-label="إلى">${cityOpts(r.to)}</select></div></div>
+      <button class="swap" data-act="swap" aria-label="عكس الاتجاه">${ic.swap}</button>
+    </div>
+    <div class="row between"><h3 class="h">نوع الشاحنة</h3><span class="small muted">${km(r.from,r.to)} كم</span></div>
+    <div class="types">${TYPES.map(t=>`<button class="type ${r.type===t.id?'on':''}" data-act="type" data-v="${t.id}">${truck(t.id)}<b>${t.name}</b><small>${t.sub}</small></button>`).join('')}</div>
+    <button class="btn" data-act="go" data-v="request">التالي: تفاصيل الحمولة</button>
+    <div class="promo"><div class="ic num">30%</div><div><b>مش مستعجل؟</b><div class="small muted">نفس الشاحنة ممكن توصل أرخص بـ 30% لو أخرت التحميل كم يوم.</div></div></div>
+    <div class="card stats"><div><b class="num">48</b><span class="small muted">شركة نقل</span></div><div><b class="num">1,900+</b><span class="small muted">شاحنة</span></div><div><b class="num">13</b><span class="small muted">مدينة</span></div></div>
+  </div>` + nav();
+},
+request(){
+  const r=state.req;
+  return topbar('تفاصيل الطلب','home') + `<div class="scroll">
+    <div class="card row">${truck(r.type).replace('<svg','<svg style="width:72px;height:38px"')}<div><b>${T(r.type).name}</b><div class="small muted">${r.from} ← ${r.to} · ${km(r.from,r.to)} كم</div></div></div>
+    <div class="card" style="display:grid;gap:14px">
+      <div class="field"><span class="label">عدد الشاحنات</span>
+        <div class="stepper"><button data-act="cnt" data-v="-1" aria-label="أقل">−</button><span class="num">${r.count}</span><button data-act="cnt" data-v="1" aria-label="أكثر">+</button></div></div>
+      <div class="field"><label class="label" for="cargo">نوع الحمولة</label><input id="cargo" data-act="set" data-k="cargo" value="${r.cargo}" placeholder="مثال: حديد، أثاث، خضار"></div>
+      <div class="field"><label class="label" for="weight">الوزن لكل شاحنة (طن)</label><input id="weight" class="num" inputmode="numeric" data-act="set" data-k="weight" value="${r.weight}"></div>
+      <div class="field"><label class="label" for="pickup">موقع التحميل</label><input id="pickup" data-act="set" data-k="pickup" value="${r.pickup}"></div>
+      ${r.type==='reefer'?`<div class="field"><span class="label">درجة الحرارة</span><div class="pills"><button class="on">مبرد 2° إلى 8°</button><button>مجمد −18°</button></div></div>`:''}
+    </div>
+    <div class="card" style="display:grid;gap:10px">
+      <span class="label">متى بدك تحمّل؟</span>
+      <div class="seg">
+        <button data-act="urg" data-v="urgent" class="${r.urgency==='urgent'?'on':''}"><b>مستعجل</b><small>اليوم أو بكرة، بأعلى سعر</small></button>
+        <button data-act="urg" data-v="flex" class="${r.urgency==='flex'?'on':''}"><b>مرن</b><small>أرني أرخص الأيام خلال أسبوعين</small></button>
+      </div>
+    </div>
+    <button class="btn" data-act="search">اعرض الأسعار المتاحة</button>
+  </div>` + nav();
+},
+offers(){
+  const r=state.req, n=r.urgency==='urgent'?3:14;
+  const daysData=[...Array(n)].map((_,i)=>{const c=bestCombo(r,i);return {i,per:c.filled?c.total/c.filled:0,c};});
+  const valid=daysData.filter(d=>d.c.complete);
+  const minPer=valid.length?Math.min(...valid.map(d=>d.per)):0, maxPer=Math.max(...daysData.map(d=>d.per));
+  const best=valid.find(d=>d.per===minPer);
+  if(state.day>=n) state.day=0;
+  const sel=daysData[state.day], combo=sel.c, urgentPer=daysData[0].per;
+  let offs=offersFor(r,state.day);
+  offs.sort(state.sort==='price'?(a,b)=>a.price-b.price:state.sort==='rating'?(a,b)=>b.c.rating-a.c.rating:(a,b)=>b.avail-a.avail);
+  const save = best && best.i!==state.day ? (sel.per-best.per)*r.count : 0;
+  return topbar('الأسعار والتوفر','request') + `<div class="scroll">
+    <div class="summary"><span><b>${r.from} ← ${r.to}</b></span><span>${T(r.type).name}</span><span><b class="num">${r.count}</b> شاحنات</span><span>${r.cargo||'—'}</span></div>
+    <div>
+      <div class="row between" style="margin-bottom:12px"><h3 class="h">سعر الشاحنة حسب يوم التحميل</h3></div>
+      <div class="days">${daysData.map(d=>{
+        const h=d.per?Math.round(8+((d.per-minPer)/Math.max(1,maxPer-minPer))*34):4, dt=dayAt(d.i);
+        const isBest=best&&d.i===best.i;
+        return `<button class="day ${state.day===d.i?'on':''} ${isBest?'best':''} ${d.c.complete?'':'na'}" data-act="day" data-v="${d.i}">
+          ${d.i===0?'<span class="tag u">مستعجل</span>':isBest?'<span class="tag">الأرخص</span>':''}
+          <span class="dn">${d.i===0?'اليوم':d.i===1?'بكرة':dayFmt.format(dt)}</span><span class="dd num">${dateFmt.format(dt)}</span>
+          <span class="bar" style="height:${h}px"></span><span class="pp num">${d.per?fmt(d.per):'—'}</span></button>`;}).join('')}</div>
+    </div>
+    ${save>0?`<div class="tip">${ic.cal}<div>لو أخرت التحميل لـ <b>${dateFmt.format(dayAt(best.i))}</b> بتوفر <b class="num">${fmt(save)} ر.س</b> على الطلب كامل.</div><button class="chip good" data-act="day" data-v="${best.i}" style="border:0">اختر</button></div>`:
+      state.day>0 && urgentPer>sel.per?`<div class="tip">${ic.check.replace('width="40" height="40"','width="20" height="20"')}<div>هذا اليوم أرخص من التحميل الفوري بـ <b class="num">${fmt((urgentPer-sel.per)*r.count)} ر.س</b>.</div></div>`:''}
+    ${combo.complete?`<div class="card combo">
+      <div class="row between"><span class="chip amber">توليفة نقلة · أوفر خيار</span><span class="small muted">${dateFmt.format(dayAt(state.day))}</span></div>
+      <div style="margin-top:8px"><span class="total num">${fmt(combo.total)}</span> <span class="muted">ر.س لـ ${r.count} شاحنات</span></div>
+      <div class="small muted">ما يهمك من أي شركة. نجمع لك أرخص الشاحنات المتاحة ونضمن التنفيذ.</div>
+      <div class="mix">${combo.parts.map(p=>`<div><span>${p.take} × ${p.o.c.name}</span><span class="num">${fmt(p.o.price)} للشاحنة</span></div>`).join('')}</div>
+      <button class="btn" data-act="pick" data-v="combo">احجز التوليفة</button></div>`
+      :`<div class="card empty">ما في ${r.count} شاحنات متاحة بهذا اليوم. المتاح <b class="num">${combo.filled}</b> فقط. جرّب يوم ثاني.</div>`}
+    <div class="row between"><h3 class="h">أو اختر شركة بنفسك</h3>
+      <div class="sortbar"><button data-act="sort" data-v="price" class="${state.sort==='price'?'on':''}">الأرخص</button><button data-act="sort" data-v="rating" class="${state.sort==='rating'?'on':''}">التقييم</button><button data-act="sort" data-v="avail" class="${state.sort==='avail'?'on':''}">التوفر</button></div></div>
+    ${offs.map((o,k)=>`<div class="card offer">
+      <div class="co"><div class="av" style="background:${o.c.color}">${o.c.short}</div>
+        <div style="flex:1;min-width:0"><b>${o.c.name}</b><div class="small muted"><span class="num">★ ${o.c.rating}</span> · <span class="num">${fmt(o.c.trips)}</span> رحلة</div></div>
+        <div class="price"><b class="num">${fmt(o.price)}</b><div class="small muted">للشاحنة</div></div></div>
+      <div class="meta"><span class="chip ${o.avail>=r.count?'good':'warn'}">متاح ${o.avail} ${o.avail<r.count?'من '+r.count:''}</span><span class="chip">الوصول ~${o.hours} ساعة</span>${o.ins?'<span class="chip cold">تأمين على البضاعة</span>':''}</div>
+      <button class="btn ghost" data-act="pick" data-v="${o.ci}">احجز ${Math.min(o.avail,r.count)} شاحنات · ${fmt(o.price*Math.min(o.avail,r.count))} ر.س</button>
+    </div>`).join('')||'<div class="empty">لا توجد عروض</div>'}
+  </div>` + nav();
+},
+checkout(){
+  const r=state.req, ch=state.choice, sub=ch.total, fee=Math.round(sub*.05), vat=Math.round((sub+fee)*.15), tot=sub+fee+vat;
+  return topbar('تأكيد الحجز والدفع','offers') + `<div class="scroll">
+    <div class="card" style="display:grid;gap:8px">
+      <div class="row between"><b>${r.from} ← ${r.to}</b><span class="chip">${dateFmt.format(dayAt(state.day))}</span></div>
+      <div class="small muted">${T(r.type).name} · ${r.cargo} · ${r.pickup}</div>
+      <div class="mix" style="margin:4px 0 0">${ch.parts.map(p=>`<div><span>${p.take} × ${p.o.c.name}</span><span class="num">${fmt(p.take*p.o.price)}</span></div>`).join('')}</div>
+    </div>
+    <div class="card lines">
+      <div><span>أجرة النقل (${ch.count} شاحنات)</span><span class="num">${fmt(sub)}</span></div>
+      <div><span>رسوم خدمة نقلة 5%</span><span class="num">${fmt(fee)}</span></div>
+      <div><span>ضريبة القيمة المضافة 15%</span><span class="num">${fmt(vat)}</span></div>
+      <div class="tot"><span>الإجمالي</span><span>${sar(tot)}</span></div>
+    </div>
+    <div class="card" style="display:grid;gap:10px">
+      <div class="row">${ic.shield}<b>دفعك محفوظ عند نقلة</b></div>
+      <div class="flow"><div class="n">أنت</div><span>←</span><div class="n me">نقلة</div><span>←</span><div class="n">شركة النقل</div></div>
+      <div class="small muted">تدفع لنقلة الآن. نحوّل المبلغ لشركة النقل بعد ما تأكد استلام البضاعة. لو الشاحنة ما وصلت، نوفر بديل أو نرجع لك المبلغ.</div>
+    </div>
+    <div class="card pay"><span class="label">طريقة الدفع</span>
+      ${[['mada','مدى'],['apple','Apple Pay'],['card','بطاقة ائتمانية'],['bank','تحويل بنكي (للشركات)']].map(([v,l])=>`<label><input type="radio" name="pay" id="pay-${v}" value="${v}" data-act="pay" ${state.pay===v?'checked':''}>${l}</label>`).join('')}
+    </div>
+    <button class="btn" data-act="confirm">ادفع ${fmt(tot)} ر.س وأكد الحجز</button>
+  </div>` + nav();
+},
+success(){
+  const b=state.bookings[0];
+  return topbar('تم الحجز') + `<div class="scroll"><div class="success">
+    <div class="ok">${ic.check}</div><h3 class="h">تم تأكيد حجزك</h3>
+    <div class="muted">رقم الطلب <b class="num">${b.id}</b></div>
+    <div class="small muted" style="max-width:280px">أبلغنا شركات النقل. بيوصلك اسم السائق ورقم اللوحة لكل شاحنة قبل موعد التحميل.</div>
+  </div>
+  <button class="btn dark" data-act="track" data-v="0">تتبع الطلب</button>
+  <button class="btn ghost" data-act="tab" data-v="home">طلب جديد</button></div>` + nav();
+},
+bookings(){
+  const S=['تم الحجز','تم تعيين السائقين','في الطريق','وصلت','تم التسليم'];
+  return topbar('طلباتي') + `<div class="scroll">
+    ${state.bookings.map((b,i)=>`<button class="card" style="border:0;text-align:start;display:grid;gap:6px" data-act="track" data-v="${i}">
+      <div class="row between"><b>${b.from} ← ${b.to}</b><span class="chip ${b.status>=4?'good':'amber'}">${S[b.status]}</span></div>
+      <div class="small muted">${T(b.type).name} · <span class="num">${b.count}</span> شاحنات · ${dateFmt.format(b.date)}</div>
+      <div class="row between small"><span class="muted num">${b.id}</span><b class="num">${fmt(b.total)} ر.س</b></div></button>`).join('')}
+  </div>` + nav();
+},
+track(){
+  const b=state.bookings[state.trackI||0];
+  const steps=[['تم الحجز والدفع','المبلغ محفوظ عند نقلة'],['تم تعيين السائقين','وصلتك بيانات السائقين'],['في الطريق','آخر تحديث قبل 12 دقيقة'],['وصلت للوجهة','بانتظار تأكيدك للاستلام'],['تم التسليم','تم تحويل المبلغ لشركة النقل']];
+  return topbar('تتبع '+b.id,'bookings') + `<div class="scroll">
+    <div class="map"><svg viewBox="0 0 340 150" preserveAspectRatio="none"><path d="M300 30 C 230 40, 200 110, 40 120" stroke="var(--brand)" stroke-width="3" fill="none" stroke-dasharray="6 6"/>
+      <circle cx="300" cy="30" r="7" fill="var(--brand)"/><circle cx="40" cy="120" r="7" fill="var(--amber)"/>
+      ${b.status>=2&&b.status<4?'<circle cx="190" cy="82" r="9" fill="var(--amber)" stroke="var(--surface)" stroke-width="3"/>':''}
+      <text x="300" y="54" text-anchor="middle" font-size="12" fill="var(--ink)">${b.from}</text><text x="40" y="144" text-anchor="middle" font-size="12" fill="var(--ink)">${b.to}</text></svg></div>
+    <div class="card"><b>الشاحنات</b><div class="trucks" style="margin-top:10px">${b.prog.map((p,i)=>`<div class="trk"><span class="num">#${i+1}</span><span class="muted small" style="width:120px">${b.mix[Math.min(i,b.mix.length-1)][0].split(' ').slice(0,2).join(' ')}</span><div class="prog"><span style="width:${p}%"></span></div><span class="num small">${p}%</span></div>`).join('')}</div></div>
+    <div class="card"><b>حالة الطلب</b><div class="timeline">${steps.map((s,i)=>`<div class="tl ${i<b.status?'done':i===b.status?'now':''}"><i></i><div><b>${s[0]}</b><small>${s[1]}</small></div></div>`).join('')}</div></div>
+    ${b.status===3?'<button class="btn" data-act="toast" data-v="تم تأكيد الاستلام">أكد استلام البضاعة</button>':''}
+  </div>` + nav();
+},
+account(){
+  return topbar('حسابي') + `<div class="scroll">
+    <div class="card row"><div class="av" style="background:var(--brand)">أ</div><div><b>أبو العبد</b><div class="small muted">حساب ${state.mode==='customer'?'عميل':'شركة نقل'} · الدمام</div></div></div>
+    <div class="card" style="display:grid;gap:12px">${['السجل التجاري والفواتير','طرق الدفع','العناوين المحفوظة','الإشعارات','الدعم عبر واتساب'].map(x=>`<div class="row between"><span>${x}</span><span class="muted">‹</span></div>`).join('')}</div>
+    <div class="small muted" style="text-align:center">نموذج أولي · البيانات أمثلة</div>
+  </div>` + nav();
+},
+/* ---------- partner side ---------- */
+'p-home'(){
+  const p=state.partner;
+  return topbar() + `<div class="scroll">
+    <div class="kpis"><div class="card"><span class="label">طلبات جديدة</span><b class="num">${p.requests.length}</b></div><div class="card"><span class="label">مستحقات هذا الشهر</span><b class="num">84,300</b></div>
+      <div class="card"><span class="label">شاحنات فاضية اليوم</span><b class="num">7 / 30</b></div><div class="card"><span class="label">التقييم</span><b class="num">★ 4.4</b></div></div>
+    <h3 class="h">طلبات العملاء القريبة منك</h3>
+    ${p.requests.map(q=>{const sent=p.sent[q.id];return `<div class="card req">
+      <div class="row between"><b>${q.from} ← ${q.to}</b><span class="chip">${dateFmt.format(dayAt(q.day))}</span></div>
+      <div class="row" style="gap:12px">${truck(q.type).replace('<svg','<svg style="width:56px;height:30px"')}<div class="small muted">${T(q.type).name} · <span class="num">${q.count}</span> شاحنات<br>متوسط السوق: <b class="num">${fmt(q.target)}</b> ر.س للشاحنة</div></div>
+      ${sent?`<span class="chip good">أرسلت عرض ${fmt(sent)} ر.س للشاحنة</span>`:`<div class="field"><label class="label" for="bid-${q.id}">سعرك للشاحنة</label><input id="bid-${q.id}" class="num" inputmode="numeric" value="${q.target-200}"></div>
+      <div class="acts"><button class="btn" data-act="bid" data-v="${q.id}">أرسل العرض</button><button class="btn ghost" data-act="toast" data-v="تم تجاهل الطلب">تجاهل</button></div>`}
+    </div>`;}).join('')}
+  </div>` + nav();
+},
+'p-fleet'(){
+  const fleet=[['trailer',14,9],['flat',8,5],['satha',5,2],['water',3,3]];
+  return topbar('أسطولي') + `<div class="scroll">
+    ${fleet.map(([t,all,free])=>`<div class="card row">${truck(t).replace('<svg','<svg style="width:64px;height:34px"')}<div style="flex:1"><b>${T(t).name}</b><div class="small muted"><span class="num">${all}</span> شاحنة</div></div><span class="chip ${free?'good':'warn'}">فاضي ${free}</span></div>`).join('')}
+    <button class="btn dark" data-act="toast" data-v="قريباً: إضافة شاحنة">+ أضف شاحنة</button>
+  </div>` + nav();
+},
+'p-cal'(){
+  const cells=[...Array(14)].map((_,i)=>{const free=Math.round(rnd(i+3)*9);return `<div class="${free>3?'open':free===0?'full':''}"><span>${dayFmt.format(dayAt(i))}</span><b class="num">${dayAt(i).getDate()}</b><span class="num">${free}</span></div>`;}).join('');
+  return topbar('التوفر والأسعار') + `<div class="scroll">
+    <div class="card"><b>الشاحنات الفاضية حسب اليوم</b><div class="small muted" style="margin:4px 0 12px">حدّث التوفر عشان تظهر للعملاء بالأيام اللي عندك فيها شاحنات فاضية.</div><div class="cal">${cells}</div></div>
+    <div class="card" style="display:grid;gap:12px"><b>أضف توفر وسعر</b>
+      <div class="field"><label class="label" for="av-type">نوع الشاحنة</label><select id="av-type">${TYPES.map(t=>`<option>${t.name}</option>`).join('')}</select></div>
+      <div class="field"><label class="label" for="av-route">المسار</label><select id="av-route"><option>الدمام ← جدة</option><option>الدمام ← الرياض</option><option>أي مسار</option></select></div>
+      <div class="field"><label class="label" for="av-price">السعر للشاحنة (ر.س)</label><input id="av-price" class="num" value="7200" inputmode="numeric"></div>
+      <button class="btn" data-act="toast" data-v="تم نشر التوفر للعملاء">انشر التوفر</button></div>
+  </div>` + nav();
+}
+};
+
+function render(){
+  const keepScroll = render._same ? ($phone.querySelector('.scroll')||{}).scrollTop : 0;
+  const daysScroll = ($phone.querySelector('.days')||{}).scrollLeft;
+  $phone.innerHTML = screens[state.screen]() + (state.toast?`<div class="toast">${state.toast}</div>`:'');
+  const sc=$phone.querySelector('.scroll'); if(sc && render._same) sc.scrollTop=keepScroll;
+  const ds=$phone.querySelector('.days'); if(ds && daysScroll!=null && render._same) ds.scrollLeft=daysScroll;
+  render._same=false;
+}
+function go(s,same){ state.screen=s; render._same=!!same; render(); }
+function toast(t){ state.toast=t; render._same=true; render(); clearTimeout(toast.t); toast.t=setTimeout(()=>{state.toast='';render._same=true;render();},1800); }
+
+$phone.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]'); if(!el) return;
+  const a=el.dataset.act, v=el.dataset.v, r=state.req;
+  if(el.tagName==='SELECT'||el.tagName==='INPUT') return;
+  if(a==='go') go(v);
+  if(a==='tab'){ state.tab=v; go(v); }
+  if(a==='mode'){ state.mode=v; state.tab=v==='customer'?'home':'p-home'; go(state.tab); }
+  if(a==='type'){ r.type=v; go('home',true); }
+  if(a==='swap'){ [r.from,r.to]=[r.to,r.from]; go('home',true); }
+  if(a==='cnt'){ r.count=Math.min(30,Math.max(1,r.count+ +v)); go('request',true); }
+  if(a==='urg'){ r.urgency=v; go('request',true); }
+  if(a==='search'){ state.day=0; state.tab='offers'; go('offers'); }
+  if(a==='day'){ state.day=+v; go('offers',true); }
+  if(a==='sort'){ state.sort=v; go('offers',true); }
+  if(a==='pick'){
+    if(v==='combo'){ const c=bestCombo(r,state.day); state.choice={parts:c.parts,total:c.total,count:c.filled}; }
+    else { const o=offersFor(r,state.day).find(x=>x.ci===+v), take=Math.min(o.avail,r.count); state.choice={parts:[{o,take}],total:o.price*take,count:take}; }
+    go('checkout');
+  }
+  if(a==='confirm'){
+    const ch=state.choice, sub=ch.total, fee=Math.round(sub*.05), tot=sub+fee+Math.round((sub+fee)*.15);
+    state.bookings.unshift({id:'NQ-'+(24820+state.bookings.length),from:r.from,to:r.to,type:r.type,count:ch.count,total:tot,date:dayAt(state.day),status:0,
+      mix:ch.parts.map(p=>[p.o.c.name,p.take]),prog:[...Array(ch.count)].map(()=>0)});
+    go('success');
+  }
+  if(a==='track'){ state.trackI=+v; state.tab='bookings'; go('track'); }
+  if(a==='toast') toast(v);
+  if(a==='bid'){ const inp=document.getElementById('bid-'+v); state.partner.sent[v]=+inp.value||0; toast('تم إرسال عرضك للعميل'); }
+});
+$phone.addEventListener('change',e=>{
+  const el=e.target; if(el.dataset.act==='set'){ state.req[el.dataset.k]=el.value; if(el.tagName==='SELECT') go(state.screen,true); }
+  if(el.dataset.act==='pay') state.pay=el.value;
+});
+$phone.addEventListener('input',e=>{ const el=e.target; if(el.dataset.act==='set' && el.tagName==='INPUT') state.req[el.dataset.k]=el.value; });
+
+render();
+})();
+</script>
